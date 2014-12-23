@@ -1,4 +1,4 @@
-require "matchers"
+require "matchers"# {{{# }}}
 
 describe Matchers do
   it "asserts on equality" do
@@ -25,7 +25,7 @@ describe Matchers do
   it "asserts on types and classes (be_an_instance_of)" do
     number = 2
     expect(number).to be_an_instance_of Fixnum
-  end
+  end# {{{# }}}
   it "asserts on truthiness" do
     bool = true
     expect(bool).to be true
@@ -42,9 +42,36 @@ describe Matchers do
     obj = Object.new
     expect(obj).to be_truthy
   end
-  it "expects errors"
-  it "expects throws"
-  it "asserts on predicates"
-  it "asserts on collections"
-  it "negates asserts"
+  it "expects errors" do
+    expect do
+      raise ArgumentError
+    end.to raise_error ArgumentError
+  end
+  it "expects throws" do
+    expect do
+      throw :ooops
+    end.to throw_symbol :ooops
+  end
+  it "expects throws" do
+    expect do
+      throw :ooops
+    end.to throw_symbol
+  end
+  it "asserts on predicates" do
+    class A
+      def good?
+        true
+      end
+    end
+    expect(A.new).to be_good
+  end
+  it "asserts on collections" do
+    list = [ "one", "two", "three", "four" ]
+    expect(list).to include "four"
+    expect(list).to start_with [ "one" ]
+    expect(list).to end_with [ "four" ]
+  end
+  it "negates asserts" do
+    expect(3).not_to be 5
+  end
 end
